@@ -1,6 +1,6 @@
 "use strict";
 // Import mongoose
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Declare schema and assign Schema class
 const Schema = mongoose.Schema;
@@ -34,4 +34,4 @@ const user = new Schema({
 });
 
 // create and export model
-module.exports = mongoose.model("userModel", user, "_users");
+module.exports = mongoose.models.userModel || mongoose.model("userModel", user, "_users");

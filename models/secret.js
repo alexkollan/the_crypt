@@ -21,7 +21,7 @@ const secret = new Schema({
   },
   secretTags: {
     type: Array,
-    required: true,
+    required: false,
   },
   creationDate: {
     type: Date,
@@ -34,4 +34,4 @@ const secret = new Schema({
 });
 
 // create and export model
-module.exports = mongoose.model("secretModel", secret, "_secret");
+module.exports = mongoose.models.secretModel || mongoose.model("secretModel", secret, "_secret");
