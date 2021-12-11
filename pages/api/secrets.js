@@ -1,6 +1,8 @@
 "use strict";
 import dbConnect from "../../lib/dbConnect";
 import Secret from "../../models/secret";
+import User from "../../models/user";
+import encrypt from "../../lib/encrypt";
 // create App function
 export default async function handler(req, res) {
   const { method } = req;
@@ -10,24 +12,30 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET":
       try {
-        const secrets = await Secret.find({});
-        res.status(200).json({ success: true, data: secrets });
+        console.log(req.query);
+        let secrets = await Secret.find({ _id: req.query.secretId });
+        let user = await User.find({ _id: req.query.userId });
+        secrets[0].hashedSecret = encrypt.reveal(secrets[0].hashedSecret, user[0].userKey);
+        res.status(200).json({ status: "ok", data: secrets });
       } catch (error) {
-        res.status(400).json({ success: false, data: error });
+        res.status(400).json({ status: "error", data: error });
       }
       break;
     case "POST":
       try {
-        const secrets = await Secret.create(req.body.form);
-        res.status(201).json({ status: "OK", data: secrets });
-        console.log("Successfully added a Secret!");
+        let secretBody = req.body.form;
+        secretBody.hashedSecret = encrypt.hashIt(secretBody.hashedSecret, "alexSecretKey");
+        console.log("New Secret encoded encrypted!");
+        const secrets = await Secret.create(secretBody);
+        res.status(201).json({ status: "ok", data: secrets });
+        console.log("Successfully saved a Secret!");
       } catch (error) {
-        console.log("Body: ", req.body);
-        res.status(400).json({ success: false, data: error });
+        console.log("Body: ", req.body, error);
+        res.status(400).json({ status: "error", data: error });
       }
       break;
     default:
-      res.status(400).json({ success: false });
+      res.status(400).json({ status: "error", data: "Undefined reason (exception)." });
       break;
   }
 }

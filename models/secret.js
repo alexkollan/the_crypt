@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 const secret = new Schema({
   title: {
     type: String,
-    required: true,
+    required: false,
   },
   hashedSecret: {
     type: String,

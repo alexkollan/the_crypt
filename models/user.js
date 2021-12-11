@@ -1,6 +1,6 @@
 "use strict";
 // Import mongoose
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 // Declare schema and assign Schema class
 const Schema = mongoose.Schema;
