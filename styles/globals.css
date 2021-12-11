@@ -47,11 +47,17 @@ a {
   text-align: center;
   vertical-align: top;
   position: relative;
-  overflow: visible;
+  /* overflow: visible; */
+  max-width: 300px;
+  min-width: 100px;
+  max-height: 10px !important;
+  /* text-overflow: ellipsis; */
+  overflow-wrap: break-word;
 }
 
 .selectable {
   cursor: pointer;
+  overflow: visible !important;
 }
 .selectable:hover {
   background-color: rgb(163, 255, 127);
@@ -61,7 +67,9 @@ a {
   /* display: inline-block; */
   /* border-bottom: 1px dotted black; */
 }
-
+/* input {
+  text-align: center;
+} */
 .selectable .tooltiptext {
   visibility: hidden;
   width: 120px;

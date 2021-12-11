@@ -2,43 +2,63 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import React, { useState, useEffect } from "react";
+import cookie from "js-cookie";
 
 export default function Home(props) {
-  const [user, updatetUser] = useState("61ac9e5106c30a142800b5a1");
+  const [user, updatetUser] = useState("");
   const [postForm, updatePostForm] = useState({
     title: "",
     hashedSecret: "",
-    userId: user,
+    userId: "",
   });
   const [getForm, updateGetForm] = useState({
-    secretId: "61b457c8b2e2500b36e0dfb4",
-    userId: user,
+    secretId: "",
+    userId: "",
   });
   const [secret, updateSecret] = useState("");
+  const [secretList, updateList] = useState(props.value != null ? [...props.value] : []);
+
   useEffect(() => {
     // storing input name
-    if (!localStorage.getItem("userId")) {
-      localStorage.setItem("userId", JSON.stringify("61ac9e5106c30a142800b5a1"));
+    // cookie.set("testCookie", "randomValue", { expires: 1 / 24 });
+    // let sessionCookie = ;
+    if (cookie.get("session")) {
+      updatetUser(JSON.parse(cookie.get("session")).user);
+      updatePostForm((oldForm) => {
+        return { ...oldForm, userId: JSON.parse(cookie.get("session")).user };
+      });
+      updateGetForm((oldForm) => {
+        return { ...oldForm, userId: JSON.parse(cookie.get("session")).user };
+      });
     }
-  });
+    console.log(user);
+    // cookie.set("testCookie", "aaaaaaaaaaaa");
+    // cookie.remove("testCookie");
+    // if (!localStorage.getItem("userId")) {
+    //   localStorage.setItem("userId", JSON.stringify("61ac9e5106c30a142800b5a1"));
+    // }
+  }, []);
 
   const inputChangeHandler = (e) => {
     let inId = e.target.id;
     let value = e.target.value;
-    console.log(e.target.parentNode.id);
+    // console.log(e.target.parentNode.id);
+    if (inId == "user") {
+      updatetUser(value);
+    }
     if (e.target.parentNode.id === "readForm") {
       updateGetForm((oldForm) => {
-        console.log(getForm);
+        // console.log(getForm);
         return { ...oldForm, [inId]: value };
       });
     } else if (e.target.parentNode.id === "writeForm") {
       updatePostForm((oldForm) => {
-        console.log(postForm);
+        // console.log(postForm);
         return { ...oldForm, [inId]: value };
       });
     }
 
-    console.log(postForm);
+    // console.log(postForm);
   };
   const readRecord = (e) => {
     e.preventDefault();
@@ -72,8 +92,19 @@ export default function Home(props) {
         updatePostForm({
           title: "",
           hashedSecret: "",
-          userId: "",
+          userId: user,
         });
+        const requestOptions = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          // body: JSON.stringify({ getForm }),
+        };
+        fetch(`http://localhost:3000/api/secretList/?userId=${user}`, requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            updateList(data.data);
+          });
       });
   };
   const clickHandler = (e) => {
@@ -82,6 +113,54 @@ export default function Home(props) {
     updateGetForm((oldForm) => {
       return { ...oldForm, secretId: e.target.childNodes[0].textContent };
     });
+  };
+  const setUser = (e) => {
+    e.preventDefault();
+    cookie.set("session", JSON.stringify({ user: user }));
+    // updatetUser(JSON.parse(cookie.get("session")).user);
+    updatePostForm((oldForm) => {
+      return { ...oldForm, userId: user };
+    });
+    updateGetForm((oldForm) => {
+      return { ...oldForm, userId: user };
+    });
+    // ==========================================================
+
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      // body: JSON.stringify({ getForm }),
+    };
+    fetch(`http://localhost:3000/api/secretList/?userId=${user}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        updateList(data.data);
+      });
+  };
+  let Tbody = () => {
+    if (secretList.length) {
+      return (
+        <tbody>
+          {secretList.map((dt, k) => {
+            return (
+              <tr key={k}>
+                <td className="tg-amwm">#{k + 1}</td>
+                <td className="tg-baqh">{dt.title}</td>
+                <td className="tg-baqh selectable" onClick={clickHandler}>
+                  {dt._id}
+                  <span className="tooltiptext">Select</span>
+                </td>
+                <td className="tg-baqh">{dt.hashedSecret}</td>
+                <td className="tg-baqh">{dt.userId}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      );
+    } else {
+      return <tbody></tbody>;
+    }
   };
 
   return (
@@ -96,6 +175,9 @@ export default function Home(props) {
         <h1 className={styles.title}>
           You just entered <a>The Crypt!</a>
         </h1>
+        <input type="text" value={user} name="user" id="user" onChange={inputChangeHandler} style={{ width: "250px" }} />
+        <input type="hidden" name="Alex's User ID" value="61ac9e5106c30a142800b5a1" />
+        <input type="button" value="Set User" onClick={setUser} />
         <p className={styles.description}>
           <code className={styles.code}>Add your secrets and secure them</code>
         </p>
@@ -123,7 +205,8 @@ export default function Home(props) {
         <p>Secret is: "{secret}"</p>
         <br />
         User ID: {user}
-        <table className="tg">
+        <br />
+        <table className="tg" style={{ display: secretList.length ? "initial" : "none" }}>
           <thead>
             <tr>
               <th className="tg-t2cw">#</th>
@@ -133,7 +216,8 @@ export default function Home(props) {
               <th className="tg-t2cw">User ID</th>
             </tr>
           </thead>
-          <tbody>
+          <Tbody />
+          {/* <tbody>
             {props.value.map((dt, k) => {
               return (
                 <tr key={k}>
@@ -148,9 +232,28 @@ export default function Home(props) {
                 </tr>
               );
             })}
-          </tbody>
+          </tbody> */}
         </table>
         <br />
+        <p>
+          Don't even try to crack/bute-force this shit. You will need to try approximately 110.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000 times :)
+          <br />
+          Stop counting the zeros... It's{" "}
+          <code>
+            <b>
+              one hundred ten <u>quattuorvigintillion</u>
+            </b>
+          </code>{" "}
+          times.
+          <br />
+          Want scientific/power notation? →{" "}
+          <code>
+            <b>
+              1.1 x 10<sup>77</sup>
+            </b>
+          </code>{" "}
+          times.
+        </p>
       </main>
 
       <footer className={styles.footer}>
@@ -165,18 +268,50 @@ export default function Home(props) {
   );
 }
 
-export const getStaticProps = async () => {
-  const res = await fetch(`http://localhost:3000/api/secretList/?userId=${"61ac9e5106c30a142800b5a1"}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const posts = await res.json();
-  console.log(posts);
+// export const getStaticProps = async (req, ress) => {
+//   let cookies = req.cookies;
+//   console.log(cookies);
+//   const res = await fetch(`http://localhost:3000/api/secretList/?userId=${"61ac9e5106c30a142800b5a1"}`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   const posts = await res.json();
+//   // console.log(posts);
+//   return {
+//     props: {
+//       value: posts.data,
+//     },
+//   };
+// };
+export const getServerSideProps = async ({ req, ress }) => {
+  let userCookie = req.cookies.session;
+  console.log(userCookie == undefined);
+  console.log(userCookie);
+
+  // console.log(user);
+
+  // return { props: {} };
+  if (userCookie != undefined) {
+    let userFromCookie = JSON.parse(userCookie).user;
+    const res = await fetch(`http://localhost:3000/api/secretList/?userId=${userFromCookie}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const posts = await res.json();
+    // console.log(posts);
+    return {
+      props: {
+        value: posts.data,
+      },
+    };
+  }
   return {
     props: {
-      value: posts.data,
+      value: null,
     },
   };
 };
