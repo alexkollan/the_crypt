@@ -2,8 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 a {
@@ -13,4 +12,95 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Cusotm table  */
+.tg {
+  border-collapse: collapse;
+  border-spacing: 0;
+  position: relative;
+}
+.tg td {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+  position: relative;
+}
+.tg th {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+  position: relative;
+}
+.tg .tg-baqh {
+  text-align: center;
+  vertical-align: top;
+  position: relative;
+  overflow: visible;
+}
+
+.selectable {
+  cursor: pointer;
+}
+.selectable:hover {
+  background-color: rgb(163, 255, 127);
+}
+.selectable {
+  position: relative;
+  /* display: inline-block; */
+  /* border-bottom: 1px dotted black; */
+}
+
+.selectable .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the selectable */
+  position: absolute;
+  z-index: 1999;
+  left: 105%;
+  top: 5px;
+}
+
+.selectable:hover .tooltiptext {
+  visibility: visible;
+}
+.selectable .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+.tg .tg-t2cw {
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+  vertical-align: top;
+  position: relative;
+}
+.tg .tg-amwm {
+  font-weight: bold;
+  text-align: center;
+  vertical-align: top;
+  position: relative;
 }

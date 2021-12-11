@@ -16,6 +16,7 @@ export default async function handler(req, res) {
         let secrets = await Secret.find({ _id: req.query.secretId });
         let user = await User.find({ _id: req.query.userId });
         secrets[0].hashedSecret = encrypt.reveal(secrets[0].hashedSecret, user[0].userKey);
+        console.log(secrets);
         res.status(200).json({ status: "ok", data: secrets });
       } catch (error) {
         res.status(400).json({ status: "error", data: error });
@@ -23,8 +24,10 @@ export default async function handler(req, res) {
       break;
     case "POST":
       try {
-        let secretBody = req.body.form;
-        secretBody.hashedSecret = encrypt.hashIt(secretBody.hashedSecret, "alexSecretKey");
+        let secretBody = req.body.postForm;
+        // console.log(secretBody);
+        let user = await User.find({ _id: secretBody.userId });
+        secretBody.hashedSecret = encrypt.hashIt(secretBody.hashedSecret, user[0].userKey);
         console.log("New Secret encoded encrypted!");
         const secrets = await Secret.create(secretBody);
         res.status(201).json({ status: "ok", data: secrets });
