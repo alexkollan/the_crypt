@@ -19,9 +19,6 @@ export default function Home(props) {
   const [secretList, updateList] = useState(props.value != null ? [...props.value] : []);
 
   useEffect(() => {
-    // storing input name
-    // cookie.set("testCookie", "randomValue", { expires: 1 / 24 });
-    // let sessionCookie = ;
     if (cookie.get("session")) {
       updatetUser(JSON.parse(cookie.get("session")).user);
       updatePostForm((oldForm) => {
@@ -31,12 +28,6 @@ export default function Home(props) {
         return { ...oldForm, userId: JSON.parse(cookie.get("session")).user };
       });
     }
-    console.log(user);
-    // cookie.set("testCookie", "aaaaaaaaaaaa");
-    // cookie.remove("testCookie");
-    // if (!localStorage.getItem("userId")) {
-    //   localStorage.setItem("userId", JSON.stringify("61ac9e5106c30a142800b5a1"));
-    // }
   }, []);
 
   const inputChangeHandler = (e) => {
@@ -202,7 +193,7 @@ export default function Home(props) {
           <input type="text" value={getForm.userId} name="userId" id="userId" onChange={inputChangeHandler} /> */}
           <input type="button" value="Read" onClick={readRecord} />
         </form>
-        <p>Secret is: "{secret}"</p>
+        <p>Secret is: &quot;{secret}&quot;</p>
         <br />
         User ID: {user}
         <br />
@@ -236,9 +227,9 @@ export default function Home(props) {
         </table>
         <br />
         <p>
-          Don't even try to crack/bute-force this shit. You will need to try approximately 110.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000 times :)
+          Don&apos;t even try to crack/bute-force this shit. You will need to try approximately 110.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000 times :)
           <br />
-          Stop counting the zeros... It's{" "}
+          Stop counting the zeros... It&apos;s{" "}
           <code>
             <b>
               one hundred ten <u>quattuorvigintillion</u>
