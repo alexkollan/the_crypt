@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { server } from "../config/index";
 import React, { useState, useEffect } from "react";
 import cookie from "js-cookie";
+import { Button } from "semantic-ui-react";
 
 export default function Home(props) {
   const [user, updatetUser] = useState("");
@@ -58,7 +60,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ getForm }),
     };
-    fetch(`/api/secrets/?userId=${encodeURIComponent(getForm.userId)}&secretId=${encodeURIComponent(getForm.secretId)}`, requestOptions)
+    fetch(`${server}/api/secrets/?userId=${encodeURIComponent(getForm.userId)}&secretId=${encodeURIComponent(getForm.secretId)}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -76,7 +78,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ postForm }),
     };
-    fetch("/api/secrets", requestOptions)
+    fetch(`${server}/api/secrets`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -90,7 +92,7 @@ export default function Home(props) {
           headers: { "Content-Type": "application/json" },
           // body: JSON.stringify({ getForm }),
         };
-        fetch(`/api/secretList/?userId=${user}`, requestOptions)
+        fetch(`${server}/api/secretList/?userId=${user}`, requestOptions)
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -122,7 +124,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ getForm }),
     };
-    fetch(`/api/secretList/?userId=${user}`, requestOptions)
+    fetch(`${server}/api/secretList/?userId=${user}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -245,6 +247,8 @@ export default function Home(props) {
           </code>{" "}
           times.
         </p>
+        <Button primary>Primary</Button>
+        <Button secondary>Secondary</Button>
       </main>
 
       <footer className={styles.footer}>
@@ -286,7 +290,7 @@ export const getServerSideProps = async ({ req, ress }) => {
   // return { props: {} };
   if (userCookie != undefined) {
     let userFromCookie = JSON.parse(userCookie).user;
-    const res = await fetch(`/api/secretList/?userId=${userFromCookie}`, {
+    const res = await fetch(`${server}/api/secretList/?userId=${userFromCookie}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
