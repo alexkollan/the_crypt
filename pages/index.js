@@ -58,7 +58,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ getForm }),
     };
-    fetch(`https://the-crypt-eight.vercel.app/api/secrets/?userId=${encodeURIComponent(getForm.userId)}&secretId=${encodeURIComponent(getForm.secretId)}`, requestOptions)
+    fetch(`/api/secrets/?userId=${encodeURIComponent(getForm.userId)}&secretId=${encodeURIComponent(getForm.secretId)}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -76,7 +76,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ postForm }),
     };
-    fetch("https://the-crypt-eight.vercel.app/api/secrets", requestOptions)
+    fetch("/api/secrets", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -90,7 +90,7 @@ export default function Home(props) {
           headers: { "Content-Type": "application/json" },
           // body: JSON.stringify({ getForm }),
         };
-        fetch(`https://the-crypt-eight.vercel.app/api/secretList/?userId=${user}`, requestOptions)
+        fetch(`/api/secretList/?userId=${user}`, requestOptions)
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
@@ -122,7 +122,7 @@ export default function Home(props) {
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ getForm }),
     };
-    fetch(`https://the-crypt-eight.vercel.app/api/secretList/?userId=${user}`, requestOptions)
+    fetch(`/api/secretList/?userId=${user}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -286,7 +286,7 @@ export const getServerSideProps = async ({ req, ress }) => {
   // return { props: {} };
   if (userCookie != undefined) {
     let userFromCookie = JSON.parse(userCookie).user;
-    const res = await fetch(`https://the-crypt-eight.vercel.app/api/secretList/?userId=${userFromCookie}`, {
+    const res = await fetch(`/api/secretList/?userId=${userFromCookie}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
