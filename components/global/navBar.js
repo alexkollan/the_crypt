@@ -98,9 +98,10 @@ export default function NavBar() {
     // return () => unsubscribe(); // unsubscribing from the listener when the component is unmounting.
   }, [inputRef]);
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  let handleItemClick = (e) => {
-    console.log("Clicked!");
-    // setActiveItem(name);
+  let handleItemClick = (e, test) => {
+    // console.log(e.target.textContent);
+    // console.log(test);
+    setActiveItem(e.target.textContent);
   };
 
   let handleLogin = (e) => {};
@@ -108,20 +109,25 @@ export default function NavBar() {
   return (
     <Sticky>
       <Menu style={{ height: "65px" }}>
-        <Link href="/">
-          <Menu.Item name="home" active={activeItem === "home"} onClick={handleItemClick}>
+        <Link href="/" name="home">
+          <Menu.Item name="home" active={activeItem === "Home"} onClick={handleItemClick}>
             Home
           </Menu.Item>
         </Link>
-        <Menu.Item name="addaSecret" active={activeItem === "addaSecret"} onClick={handleItemClick}>
+        <Link href="/otsecret" name="home">
+          <Menu.Item name="otSecret" active={activeItem === "One Time Secret"} onClick={handleItemClick}>
+            One Time Secret
+          </Menu.Item>
+        </Link>
+        <Menu.Item name="addaSecret" active={activeItem === "Add a Secret"} onClick={handleItemClick}>
           Add a Secret
         </Menu.Item>
 
-        <Menu.Item name="mySecrets" active={activeItem === "mySecrets"} onClick={handleItemClick}>
+        <Menu.Item name="mySecrets" active={activeItem === "My Secrets"} onClick={handleItemClick}>
           My Secrets
         </Menu.Item>
         <Link href="/auth">
-          <Menu.Item name="testScreen" active={activeItem === "testScreen"} onClick={handleItemClick}>
+          <Menu.Item name="testScreen" active={activeItem === "Test Screen"} onClick={handleItemClick}>
             Test Screen
           </Menu.Item>
         </Link>
