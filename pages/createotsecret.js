@@ -1,6 +1,6 @@
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 // import { auth } from "../firebase/clientApp";
-
+const CryptoJS = require("crypto-js");
 // app();
 // import { useAppContext } from "../context/AppContext";
 import React, { useState, useEffect, useContext } from "react";
@@ -9,7 +9,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signO
 import { AppContext } from "../context/AppContext";
 import { Container, Header, Form, TextArea, Divider, Button } from "semantic-ui-react";
 import encrypt from "../lib/encrypt";
-
+import { server } from "../config/index";
 function SignInScreen(props) {
   // const { sharedState } = useContext(useAppContext);
   let { gState, setGState } = useContext(AppContext);
@@ -19,6 +19,7 @@ function SignInScreen(props) {
 
   const [secret, setSecret] = useState("");
   const [encryptedSecret, setEncryptedSecret] = useState("");
+  const [url, setUrl] = useState("");
 
   let handleChange = (e) => {
     setSecret(e.target.value);
@@ -26,16 +27,29 @@ function SignInScreen(props) {
 
   let handleClick = (e) => {
     // let secret = e.target.parentNode.firstChild.firstChild.value;
-
-    setEncryptedSecret(encrypt.hashIt(secret, "1"));
-    console.log(encryptedSecret);
+    let encryptedMsg = encrypt.hashIt(secret, "1");
+    setEncryptedSecret(encryptedMsg);
+    let url = encrypt.hash(new Date().toString() + crypto.getRandomValues(new Uint8Array(16)).toString());
+    setUrl(url);
+    addOtSecret({ hashedSecret: encryptedMsg, url: url });
+    // console.log(encryptedSecret);
   };
-  let showDecrypted = (e) => {
-    // let secret = e.target.parentNode.firstChild.firstChild.value;
-
-    // setEncryptedSecret();
-    console.log(encrypt.reveal(encryptedSecret, "1"));
+  const addOtSecret = (otSecret) => {
+    console.log();
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(otSecret),
+    };
+    fetch(`${server}/api/otsecret`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
+  // let showDecrypted = (e) => {
+  //   console.log(encrypt.reveal(encryptedSecret, "1"));
+  // };
 
   return (
     <Container style={{ marginTop: "70px" }}>
@@ -61,7 +75,6 @@ function SignInScreen(props) {
         <Form.Field>
           <TextArea id="secret" placeholder="Type your One Time Secret here..." onChange={handleChange} />
         </Form.Field>
-
         <Form.Field style={{ display: encryptedSecret.length ? "initial" : "none" }}>
           <Divider horizontal>
             <Header as="h4" textAlign="center">
@@ -72,12 +85,19 @@ function SignInScreen(props) {
         </Form.Field>
         <br />
         <br />
+        <Header as="h3" textAlign="center" style={{ display: encryptedSecret.length ? "block" : "none" }}>
+          Your 1 time url: <br />
+          <br />
+          <Header.Subheader>
+            {server}/revealOtSecret/?ots={url}
+          </Header.Subheader>
+        </Header>
         <Button primary floated="right" onClick={handleClick}>
           Generate One Time Link
         </Button>
-        <Button primary onClick={showDecrypted}>
+        {/* <Button primary onClick={showDecrypted}>
           Show Decryped Secret
-        </Button>
+        </Button> */}
       </Form>
     </Container>
   );

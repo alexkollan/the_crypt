@@ -58,13 +58,10 @@ export default function NavBar() {
       });
   };
   let logOut = async () => {
-    // const auth = getAuth();
     console.log("Logging out...");
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
         console.log("Logged out successful.");
-        // console.log("Logged OUT");
         setGState(false);
         setGUser("NoName");
         setLocalUser(gUser);
@@ -76,26 +73,18 @@ export default function NavBar() {
       });
   };
   useEffect(() => {
-    // let asdf = sharedState;
-    // console.log(props);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      // detaching the listener
       if (user) {
-        // ...your code to handle authenticated users.
-        // console.log(user);
         setGState(true);
         setGUser(user);
-        // setUAvatar(user.photoURL);
+
         console.log("Hi " + user.displayName + ", you are already Logged IN");
       } else {
-        // No user is signed in...code to handle unauthenticated users.
         console.log("Logged OUT");
         setGState(false);
         setGUser("NoName");
-        // updateAuthStatus(false);
       }
     });
-    // return () => unsubscribe(); // unsubscribing from the listener when the component is unmounting.
   }, [inputRef]);
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   let handleItemClick = (e, test) => {
@@ -114,8 +103,8 @@ export default function NavBar() {
             Home
           </Menu.Item>
         </Link>
-        <Link href="/otsecret" name="home">
-          <Menu.Item name="otSecret" active={activeItem === "One Time Secret"} onClick={handleItemClick}>
+        <Link href="/createotsecret" name="home">
+          <Menu.Item name="createotsecret" active={activeItem === "One Time Secret"} onClick={handleItemClick}>
             One Time Secret
           </Menu.Item>
         </Link>
