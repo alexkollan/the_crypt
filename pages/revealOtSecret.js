@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { AppContext } from "../context/AppContext";
 import { Container, Header, Form, TextArea, Divider, Button } from "semantic-ui-react";
 import encrypt from "../lib/encrypt";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { server } from "../config/index";
 
 function SignInScreen(props) {
@@ -24,6 +24,7 @@ function SignInScreen(props) {
       mountRef.current = true;
       return;
     }
+    console.log(router);
     if (Object.keys(urlParams).length) {
       console.log(urlParams);
       const requestOptions = {

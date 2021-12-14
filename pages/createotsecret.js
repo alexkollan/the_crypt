@@ -27,6 +27,7 @@ function SignInScreen(props) {
 
   let handleClick = (e) => {
     // let secret = e.target.parentNode.firstChild.firstChild.value;
+    console.log(props.value);
     let encryptedMsg = encrypt.hashIt(secret, "1");
     setEncryptedSecret(encryptedMsg);
     let url = encrypt.hash(new Date().toString() + crypto.getRandomValues(new Uint8Array(16)).toString());
@@ -89,7 +90,7 @@ function SignInScreen(props) {
           Your 1 time url: <br />
           <br />
           <Header.Subheader>
-            {server}/revealOtSecret/?ots={url}
+            {props.value}/revealOtSecret/?ots={url}
           </Header.Subheader>
         </Header>
         <Button primary floated="right" onClick={handleClick}>
@@ -104,3 +105,15 @@ function SignInScreen(props) {
 }
 
 export default SignInScreen;
+
+export const getServerSideProps = async ({ req, ress }) => {
+  let host = "";
+  if (req) {
+    host = req.headers.host; // will give you localhost:3000
+  }
+  return {
+    props: {
+      value: host,
+    },
+  };
+};
