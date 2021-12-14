@@ -1,6 +1,8 @@
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 // import { auth } from "../firebase/clientApp";
 const CryptoJS = require("crypto-js");
+const devEnv = process.env.NODE_ENV !== "production";
+export const urlProtocol = devEnv ? "http://" : "https://";
 // app();
 // import { useAppContext } from "../context/AppContext";
 import React, { useState, useEffect, useContext } from "react";
@@ -90,7 +92,7 @@ function SignInScreen(props) {
           Your 1 time url: <br />
           <br />
           <Header.Subheader>
-            {props.value}/revealOtSecret/?ots={url}
+            {urlProtocol + props.value}/revealOtSecret/?ots={url}
           </Header.Subheader>
         </Header>
         <Button primary floated="right" onClick={handleClick}>
