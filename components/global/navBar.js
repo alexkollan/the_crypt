@@ -1,11 +1,17 @@
-import { Menu, Sticky, Image, Dropdown, Header } from "semantic-ui-react";
-import { createContext, useContext, useState, useEffect, useRef } from "react";
+// import { Menu, Sticky, Image, Dropdown, Header } from "semantic-ui-react";
+import { Button, Container, Sticky, Dropdown, Divider, Grid, Header, Icon, Image, List, Menu, Segment, Sidebar, Visibility, Label } from "semantic-ui-react";
+
+import { createContext, useContext, useState, useEffect, useRef, createRef } from "react";
 import Link from "next/link";
 import { AppContext } from "../../context/AppContext";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
+import NavBtn from "./navButton";
+import { Router, useRouter } from "next/router";
 export default function NavBar() {
   const inputRef = useRef();
+  const router = useRouter();
+  const currPage = router.pathname;
   const { gState, setGState } = useContext(AppContext);
   const { gUser, setGUser } = useContext(AppContext);
   const { uAvatar, setUAvatar } = useContext(AppContext);
@@ -13,7 +19,13 @@ export default function NavBar() {
   const [localUser, setLocalUser] = useState(gUser);
   const [activeItem, setActiveItem] = useState();
   const [isLogged, setIsLogged] = useState(false);
-
+  const [fixed, setFixed] = useState(false);
+  const [navRev, setNavRev] = useContext(AppContext);
+  const options = [
+    { key: 1, text: "Choice 1", value: 1 },
+    { key: 2, text: "Choice 2", value: 2 },
+    { key: 3, text: "Choice 3", value: 3 },
+  ];
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -87,62 +99,45 @@ export default function NavBar() {
     });
   }, [inputRef]);
   //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  let handleItemClick = (e, test) => {
-    // console.log(e.target.textContent);
-    // console.log(test);
+  let handleItemClick = (e) => {
+    // setActiveItem(false);
     setActiveItem(e.target.textContent);
   };
 
   let handleLogin = (e) => {};
   let handleLogout = (e) => {};
   return (
-    <Sticky>
-      <Menu style={{ height: "65px" }}>
-        <Link href="/" name="home">
-          <Menu.Item name="home" active={activeItem === "Home"} onClick={handleItemClick}>
-            Home
-          </Menu.Item>
-        </Link>
-        <Link href="/createotsecret" name="home">
-          <Menu.Item name="createotsecret" active={activeItem === "One Time Secret"} onClick={handleItemClick}>
-            One Time Secret
-          </Menu.Item>
-        </Link>
-        <Menu.Item name="addaSecret" active={activeItem === "Add a Secret"} onClick={handleItemClick}>
-          Add a Secret
-        </Menu.Item>
-
-        <Menu.Item name="mySecrets" active={activeItem === "My Secrets"} onClick={handleItemClick}>
-          My Secrets
-        </Menu.Item>
-        <Link href="/auth">
-          <Menu.Item name="testScreen" active={activeItem === "Test Screen"} onClick={handleItemClick}>
-            Test Screen
-          </Menu.Item>
-        </Link>
-        {/* <Menu.Menu position="right"> */}
-        <Menu.Item name="signin" position="right" style={{ display: !gState ? "flex" : "none", height: "100%" }} onClick={signIn}>
-          Sign In
-        </Menu.Item>
-
-        <Menu.Item name="signout" position="right" style={{ display: gState ? "flex" : "none", height: "100%" }}>
-          <Image src={gUser.photoURL || ""} avatar />
-        </Menu.Item>
-
-        <Dropdown item text={gUser.displayName || ""} position="right" style={{ display: gState ? "flex" : "none", height: "100%" }}>
-          <Dropdown.Menu>
-            {/* <Dropdown.Header>Text Size</Dropdown.Header> */}
-            <Dropdown.Item onClick={logOut} style={{ color: "red!important" }}>
-              <Header size="tiny" color="red">
-                Log out
-              </Header>
-            </Dropdown.Item>
-            {/* <Dropdown.Item>Medium</Dropdown.Item> */}
-            {/* <Dropdown.Item>Large</Dropdown.Item> */}
-          </Dropdown.Menu>
-        </Dropdown>
-        {/* </Menu.Menu> */}
-      </Menu>
-    </Sticky>
+    <Visibility
+      offset={() => {
+        setFixed(true);
+      }}>
+      <Segment inverted={currPage === "/" ? true : false} textAlign="center" style={{ height: 70 }} vertical>
+        <Menu fixed={"top"} inverted={currPage === "/" ? true : false} pointing secondary size="large" style={{ height: 60, marginTop: "0", background: currPage === "/" ? "#1b1c1d" : "white" }}>
+          <Container>
+            {/* <Menu.Item as="a" active>
+              Home
+            </Menu.Item>
+            <Menu.Item as="a">Work</Menu.Item>
+            <Menu.Item as="a">Company</Menu.Item>
+            <Menu.Item as="a">Careers</Menu.Item> */}
+            <NavBtn href="/" name="home" display={true} active={currPage} text="Home" onClick={handleItemClick} />
+            <NavBtn href="/createotsecret" name="createOts" display={true} active={currPage} text="One Time Secret" onClick={handleItemClick} />
+            <NavBtn href="" name="addaSecret" display={gState} active={currPage} text="Add a Secret" onClick={handleItemClick} />
+            <NavBtn href="" name="mySecrets" display={gState} active={currPage} text="My Secrets" onClick={handleItemClick} />
+            <NavBtn href="/auth" name="testScreen" display={gState} active={currPage} text="Test Screen" onClick={handleItemClick} />
+            <Menu.Item position="right">
+              <Label pointing="right" color={currPage === "/" ? "black" : "blue"} basic={currPage === "/" ? true : true} style={{ display: gState ? "inline-block" : "none" }}>
+                <Image src={gUser.photoURL || ""} avatar />
+                {gUser.displayName || ""}
+              </Label>
+              <Button size="tiny" inverted={currPage === "/" ? true : false} basic={currPage === "/" ? false : true} color={gState ? "red" : "blue"} onClick={gState ? logOut : signIn}>
+                {gState ? "Logout" : "Login"}
+              </Button>
+            </Menu.Item>
+          </Container>
+        </Menu>
+        {/* <HomepageHeading /> */}
+      </Segment>
+    </Visibility>
   );
 }

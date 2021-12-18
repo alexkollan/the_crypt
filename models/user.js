@@ -23,6 +23,10 @@ const user = new Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    required: false,
+  },
   tags: {
     type: Array,
     required: true,

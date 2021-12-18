@@ -18,8 +18,10 @@ function SignInScreen(props) {
   const router = useRouter();
   const [visualErr, setVisualErr] = useState("");
   const urlParams = router.query;
+  const currPage = router;
 
   useEffect(() => {
+    console.log(currPage);
     if (!mountRef.current) {
       mountRef.current = true;
       return;
