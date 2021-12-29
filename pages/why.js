@@ -54,7 +54,7 @@ export default function Why(props) {
               <Header as="h3" style={{ fontSize: "2em" }}>
                 &quot;What it would take to crack AES-256 encrypted messages?&quot;
                 <br />
-                Let' assume the following:
+                Let&apos;s assume the following:
               </Header>
 
               <p style={{ fontSize: "1.33em" }}>
@@ -78,7 +78,7 @@ export default function Why(props) {
                   </List.Item>
                   <List.Item>
                     <List.Icon name="hand point right" />
-                    <List.Content>Everyone person on the planet want's to hack you and uses all personal computing power that exists around them.</List.Content>
+                    <List.Content>Everyone person on the planet want&apos;s to hack you and uses all personal computing power that exists around them.</List.Content>
                   </List.Item>
                   <Divider />
                   <List.Item>
@@ -92,7 +92,7 @@ export default function Why(props) {
             </Grid.Column>
             <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
               <Header as="h3" style={{ fontSize: "2em" }}>
-                "How long would it take to crack The Crypt's messages?"
+                &quot;How long would it take to crack The Crypt&apos;s messages?&quot;
               </Header>
               <p style={{ fontSize: "1.33em" }}>
                 Well...
