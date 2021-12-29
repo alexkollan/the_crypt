@@ -52,7 +52,7 @@ export default function Why(props) {
           <Grid.Row textAlign="center">
             <Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
               <Header as="h3" style={{ fontSize: "2em" }}>
-                "What it would take to crack AES-256 encrypted messages?"
+                &quot;What it would take to crack AES-256 encrypted messages?&quot;
                 <br />
                 Let' assume the following:
               </Header>
@@ -84,7 +84,7 @@ export default function Why(props) {
                   <List.Item>
                     <List.Icon name="long arrow alternate right" />
                     <List.Content>
-                      Then the earth's population can crack one encryption key in <b>77,000,000,000,000,000,000,000,000 years</b> (just to see your precious encrypted note :) .
+                      Then the earth&apos;s population can crack one encryption key in <b>77,000,000,000,000,000,000,000,000 years</b> (just to see your precious encrypted note :) .
                     </List.Content>
                   </List.Item>
                 </List>

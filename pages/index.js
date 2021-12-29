@@ -47,7 +47,7 @@ export default function Home(props) {
               inverted>
               Create secure encrypted messages or notes. <br />
               <br />
-              Don't worry, nobody can read them. <br />
+              Don&apos;t worry, nobody can read them. <br />
               <u>
                 <b>Not even us.</b>
               </u>
