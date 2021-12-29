@@ -24,27 +24,27 @@ export default function Home(props) {
       </Head>
       <Visibility onOffScreen={updateInverseTrue} onBottomVisibleReverse={updateInverseFalse}>
         <Segment inverted textAlign="center" style={{ height: 700 }} vertical>
-          <Container inverted text>
+          <Container text>
             <Header
               as="h1"
               content="You've just entered The Crypt"
-              inverted
               style={{
                 fontSize: "3em",
                 fontWeight: "bold",
                 marginBottom: 0,
                 marginTop: "3em",
               }}
+              inverted
             />
             <Header
               as="h2"
-              inverted
               style={{
                 fontSize: "1.5em",
                 fontWeight: "normal",
                 marginTop: "1.5em",
                 marginBottom: "1.5em",
-              }}>
+              }}
+              inverted>
               Create secure encrypted messages or notes. <br />
               <br />
               Don't worry, nobody can read them. <br />
@@ -62,13 +62,13 @@ export default function Home(props) {
         </Segment>
       </Visibility>
 
-      <Segment inverted vertical style={{ padding: "5em 0em" }}>
+      <Segment vertical style={{ padding: "5em 0em" }}>
         <Container>
-          <Grid divided inverted stackable>
+          <Grid divided stackable>
             <Grid.Row>
               <Grid.Column width={3}>
-                <Header inverted as="h4" content="About" />
-                <List link inverted>
+                <Header as="h4" content="About" />
+                <List link>
                   <List.Item as="a">Sitemap</List.Item>
                   <List.Item as="a">Contact Us</List.Item>
                   <List.Item as="a">Religious Ceremonies</List.Item>
@@ -76,8 +76,8 @@ export default function Home(props) {
                 </List>
               </Grid.Column>
               <Grid.Column width={3}>
-                <Header inverted as="h4" content="Services" />
-                <List link inverted>
+                <Header as="h4" content="Services" />
+                <List link>
                   <List.Item as="a">Banana Pre-Order</List.Item>
                   <List.Item as="a">DNA FAQ</List.Item>
                   <List.Item as="a">How To Access</List.Item>
@@ -85,9 +85,7 @@ export default function Home(props) {
                 </List>
               </Grid.Column>
               <Grid.Column width={7}>
-                <Header as="h4" inverted>
-                  Footer Header
-                </Header>
+                <Header as="h4">Footer Header</Header>
                 <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
               </Grid.Column>
             </Grid.Row>

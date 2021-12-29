@@ -8,6 +8,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "firebase/auth";
 import NavBtn from "./navButton";
 import { Router, useRouter } from "next/router";
+import CButton from "../cbutton";
 export default function NavBar() {
   const inputRef = useRef();
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function NavBar() {
     { key: 2, text: "Choice 2", value: 2 },
     { key: 3, text: "Choice 3", value: 3 },
   ];
+  const [isInerted, setInverted] = useState(true);
   const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -106,11 +108,9 @@ export default function NavBar() {
 
   let handleLogin = (e) => {};
   let handleLogout = (e) => {};
+  // let isinverted = {  };
   return (
-    <Visibility
-      offset={() => {
-        setFixed(true);
-      }}>
+    <Visibility>
       <Segment inverted={currPage === "/" ? true : false} textAlign="center" style={{ height: 70 }} vertical>
         <Menu fixed={"top"} inverted={currPage === "/" ? true : false} pointing secondary size="large" style={{ height: 60, marginTop: "0", background: currPage === "/" ? "#1b1c1d" : "white" }}>
           <Container>
@@ -131,9 +131,7 @@ export default function NavBar() {
                 <Image src={gUser.photoURL || ""} avatar />
                 {gUser.displayName || ""}
               </Label>
-              <Button size="tiny" inverted={currPage === "/" ? true : false} basic={currPage === "/" ? false : true} color={gState ? "red" : "blue"} onClick={gState ? logOut : signIn}>
-                {gState ? "Logout" : "Login"}
-              </Button>
+              <CButton text={gState ? "Logout" : "Login"} size="tiny" basic={currPage === "/" ? false : true} color={gState ? "red" : "blue"} onClick={gState ? logOut : signIn} />
             </Menu.Item>
           </Container>
         </Menu>

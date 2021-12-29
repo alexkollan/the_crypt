@@ -5,6 +5,7 @@ import { server } from "../config/index";
 import React, { useState, useEffect } from "react";
 import cookie from "js-cookie";
 import { Button } from "semantic-ui-react";
+import CSection from "../components/csection";
 
 export default function SignInScreen(props) {
   const [user, updatetUser] = useState("");
@@ -168,6 +169,7 @@ export default function SignInScreen(props) {
         <h1 className={styles.title}>
           You just entered <a>The Crypt!</a>
         </h1>
+        <CSection />
         <input type="text" value={user} name="user" id="user" onChange={inputChangeHandler} style={{ width: "250px" }} />
         <input type="hidden" name="Alex's User ID" value="61ac9e5106c30a142800b5a1" />
         <input type="button" value="Set User" onClick={setUser} />
@@ -229,7 +231,8 @@ export default function SignInScreen(props) {
         </table>
         <br />
         <p>
-          Don&apos;t even try to crack/bute-force this shit. You will need to try approximately 110.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000 times :)
+          Don&apos;t even try to crack/bute-force this shit. You will need to try approximately 110.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000.000
+          times :)
           <br />
           Stop counting the zeros... It&apos;s{" "}
           <code>
