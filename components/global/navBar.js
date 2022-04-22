@@ -122,7 +122,7 @@ export default function NavBar() {
             <Menu.Item as="a">Careers</Menu.Item> */}
             <NavBtn href="/" name="home" display={true} active={currPage} text="Home" onClick={handleItemClick} />
             <NavBtn href="/createotsecret" name="createOts" display={true} active={currPage} text="One Time Secret" onClick={handleItemClick} />
-            <NavBtn href="" name="addaSecret" display={gState} active={currPage} text="Add a Secret" onClick={handleItemClick} />
+            <NavBtn href="/createsecret" name="addaSecret" display={gState} active={currPage} text="Add a Secret" onClick={handleItemClick} />
             <NavBtn href="" name="mySecrets" display={gState} active={currPage} text="My Secrets" onClick={handleItemClick} />
             <NavBtn href="/why" name="why" display={gState} active={currPage} text="Why is it safe?" onClick={handleItemClick} />
             <NavBtn href="/auth" name="testScreen" display={gState} active={currPage} text="Test Screen" onClick={handleItemClick} />
